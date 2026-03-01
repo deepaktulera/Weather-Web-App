@@ -1,0 +1,9 @@
+.time{
+    display: flex;
+    flex-shrink: 0;
+}
+.feel-text{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}

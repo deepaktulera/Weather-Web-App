@@ -6,172 +6,164 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather</title>
     <link rel="stylesheet" href="src/output.css">
+    <link rel="stylesheet" href="src/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 </head>
 
 <body>
-    <div class="min-h-screen w-full  box-border p-2 text-white bg-linear-to-b from-blue-900 to-green-900 grid grid-rows-1 md:grid-cols-[1fr] lg:grid-cols-[1fr_9fr]">
-        <aside>
+    <div
+        class="min-h-screen w-full  box-border p-2 text-white bg-linear-to-b from-blue-900 to-green-900 grid grid-rows-1 md:grid-cols-[1fr] lg:grid-cols-[1fr_9fr]">
+        <aside
+            class=" flex-row justify-evenly bg-slate-500/30 m-2 backdrop-blur-xl rounded-2xl hidden lg:flex md:flex-col ">
             <button>Weather</button>
             <button>Cities</button>
             <button>Maps</button>
             <button>setting</button>
         </aside>
 
-        <main class="m-2 h-screen grid gap-2 grid-rows-[1fr_3fr_3fr_3fr_3fr] md:gap-4 md:grid-cols-[5fr_1fr] md:grid-rows-[1fr_3fr_3fr_3fr]">
-            <div class="hamburger">
-                <button id="menuBtn">
+        <main
+            class="m-2 h-screen grid gap-2 grid-rows-[1fr_3fr_3fr_3fr_3fr] md:gap-4 md:grid-cols-[5fr_1fr] md:grid-rows-[1fr_3fr_3fr_3fr]">
+            <div class="hamburger md:hidden flex justify-between">
+                <button id="menuBtn" class="flex flex-col justify-center items-center gap-1 md:hidden w-10 h-10">
                     <span class="block w-6 h-0.5 bg-white transition-all"></span>
                     <span class="block w-6 h-0.5 bg-white transition-all"></span>
                     <span class="block w-6 h-0.5 bg-white transition-all"></span>
                 </button>
-                <button>
-                    <label for="serch">
-                        <input type="text" placeholder="enter city">
+                <div class="search p-2 px-5 rounded-4xl bg-slate-500/30 backdrop-blur-xl flex justify-between ">
+                    <label for="search">
+                        <input id="search_city" class="outline-none" type="text" placeholder="enter city">
                     </label>
-                    <span>search</span>
-                </button>
+                </div>
+                <button class="material-symbols-outlined">search</button>
             </div>
-            <div class="search-container bg-slate-500/30 backdrop-blur-xl hidden md:flex justify-between rounded-4xl p-5"">
-                <label for="search">
-                    <input type="text" placeholder="search the loaction">
-                    <span class="material-symbols-outlined">search</span>
+            <div
+                class="search-container bg-slate-500/30 backdrop-blur-xl hidden md:flex justify-between rounded-4xl p-5">
+                <label class="w-full" for="search">
+                    <input class="outline-none w-full" type="text" placeholder="search the loaction">
                 </label>
+                <button class="material-symbols-outlined">search</button>
             </div>
             <aside class="bg-slate-500/30 backdrop-blur-xl order-1 md:row-span-4 md:order-0 rounded">
-                <h2>Today Forcasting</h2>
-                <div>
-
-                    <div>
+                <h2 class="p-2">Upcoming Forcasting</h2>
+                <div
+                    class="today flex gap-2 p-6 overflow-x-auto scrollbar-none md:flex-col md:overflow-y-auto md:p- md:h-full">
+                    <div class="time">
                         <h2>9 AM</h2>
                         <h2>28 °C</h2>
-                        <img src="weather/clouds.svg" alt="">
+                        <img src="assest/clouds.svg" alt="">
                     </div>
-
-                    <div>
+                    <div class="time">
                         <h2>10 AM</h2>
                         <h2>25 °C</h2>
-                        <img src="weather/drizzle.svg" alt="">
+                        <img src="assest/drizzle.svg" alt="">
                     </div>
-
-                    <div>
+                    <div class="time">
                         <h2>11 AM</h2>
                         <h2>20 °C</h2>
-                        <img src="weather/rain.svg" alt="">
+                        <img src="assest/rain.svg" alt="">
                     </div>
-
-                    <div>
+                    <div class="time">
                         <h2>12 AM</h2>
                         <h2>17 °C</h2>
-                        <img src="weather/snow.svg" alt="">
+                        <img src="assest/snow.svg" alt="">
                     </div>
-
-                    <div>
+                    <div class="time">
                         <h2>01 PM</h2>
                         <h2>15 °C</h2>
-                        <img src="weather/thunderstorm.svg" alt="">
+                        <img src="assest/thunderstorm.svg" alt="">
                     </div>
-
-                    <div>
+                    <div class="time">
                         <h2>02 PM</h2>
                         <h2>14°C</h2>
-                        <img src="weather/thunderstorm.svg" alt="">
+                        <img src="assest/thunderstorm.svg" alt="">
                     </div>
-
-                    <div>
+                    <div class="time">
                         <h2>03 Pm</h2>
                         <h2>32 °C</h2>
-                        <img src="weather/clear.svg" alt="">
+                        <img src="assest/clear.svg" alt="">
                     </div>
-
                 </div>
             </aside>
             <section id="weather" class="p-4 rounded flex  justify-between">
-                <div>
-                    <div>
+                <div class="date-time-container flex flex-col justify-center items-center gap-4 md:gap-0">
+                    <div class="location px-4 ">
                         <span class="material-symbols-outlined">location_searching</span>
                     </div>
-                    <h2>30 °C</h2>
-                    <h4>Sunny</h4>
+                    <h2 class="text-4xl">30 °C</h2>
+                    <h4 class="text-2xl">Sunny</h4>
                 </div>
-                <div>
+                <div class="city-weather-container flex flex-col justify-center items-center gap-4 md:gap-0">
                     <h3>Wed , 23 Feb</h3>
-                    <img src="weather/clear.svg" alt="">
+                    <img src="assest/clear.svg" alt="">
                     <h2 class="city">London</h2>
                 </div>
             </section>
             <section id="today" class="bg-slate-500/30 p-2 backdrop-blur-xl rounded flex flex-col gap-3 md:gap-0">
-                <h2>Upcoming Forcasting</h2>
-                <div>
-                    <div>
+                <h2>Today Forcasting</h2>
+                <div class="today flex gap-6 px-2 overflow-x-auto md:overflow-hidden">
+                    <div class="time">
                         <h2>Today</h2>
                         <h2>32 °C</h2>
-                        <img src="weather/clouds.svg" alt="">
+                        <img src="assest/clouds.svg" alt="">
                     </div>
-
-                    <div>
+                    <div class="time">
                         <h2>Tomorrow</h2>
                         <h2>30 °C</h2>
-                        <img src="weather/drizzle.svg" alt="">
+                        <img src="assest/drizzle.svg" alt="">
                     </div>
-
-                    <div>
+                    <div class="time">
                         <h2>Wednesday</h2>
                         <h2>25 °C</h2>
-                        <img src="weather/rain.svg" alt="">
+                        <img src="assest/rain.svg" alt="">
                     </div>
-
-                    <div>
+                    <div class="time">
                         <h2>Thursday</h2>
                         <h2>25 °C</h2>
-                        <img src="weather/snow.svg" alt="">
+                        <img src="assest/snow.svg" alt="">
                     </div>
-
-                    <div>
+                    <div class="time">
                         <h2>Friday</h2>
                         <h2>32 °C</h2>
-                        <img src="weather/clear.svg" alt="">
+                        <img src="assest/clear.svg" alt="">
                     </div>
-
-                    <div>
+                    <div class="time">
                         <h2>Satuday</h2>
                         <h2>27 °C</h2>
-                        <img src="weather/thunderstorm.svg" alt="">
+                        <img src="assest/thunderstorm.svg" alt="">
                     </div>
-
-                    <div>
+                    <div class="time">
                         <h2>Sunday</h2>
                         <h2>35 °C</h2>
-                        <img src="weather/thunderstorm.svg" alt="">
+                        <img src="assest/thunderstorm.svg" alt="">
                     </div>
                 </div>
             </section>
             <section id="more" class="bg-slate-500/30 p-4 backdrop-blur-xl rounded">
                 <h2>Air Conditions</h2>
-                <div>
-                    <div>
-                        <div>
+                <div class="about-air grid grid-cols-2 gap-6 px-2 overflow-x-auto md:overflow-hidden">
+                    <div class="flex flex-col feel">
+                        <div class="feel-txt sm:justify-start sm:items-start">
                             <span class="material-symbols-outlined">thermometer</span>
                             <h2> Real Feel</h2>
                         </div>
                         <h2>30</h2>
                     </div>
                     <div">
-                        <div>
+                        <div class="feel-txt sm:justify-start sm:items-start">
                             <span class="material-symbols-outlined">air</span>
                             <h2> Wind Speed</h2>
                         </div>
                         <h2>0.3 km/h</h2>
                 </div>
                 <div>
-                    <div>
+                    <div class="feel-txt sm:justify-start sm:items-start">
                         <span class="material-symbols-outlined">humidity_low</span>
                         <h2> Humidity</h2>
                     </div>
                     <h2>28 %</h2>
                 </div>
                 <div>
-                    <div>
+                    <div class="feel-txt sm:justify-start sm:items-start">
                         <span class="material-symbols-outlined">brightness_7</span>
                         <h2> UV-Index</h2>
                     </div>
