@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <div>
+    <div class="min-h-screen w-full  box-border p-2 text-white bg-linear-to-b from-blue-900 to-green-900 grid grid-rows-1 md:grid-cols-[1fr] lg:grid-cols-[1fr_9fr]">
         <aside>
             <button>Weather</button>
             <button>Cities</button>
@@ -18,9 +18,12 @@
             <button>setting</button>
         </aside>
 
-        <main>
+        <main class="m-2 h-screen grid gap-2 grid-rows-[1fr_3fr_3fr_3fr_3fr] md:gap-4 md:grid-cols-[5fr_1fr] md:grid-rows-[1fr_3fr_3fr_3fr]">
             <div class="hamburger">
                 <button id="menuBtn">
+                    <span class="block w-6 h-0.5 bg-white transition-all"></span>
+                    <span class="block w-6 h-0.5 bg-white transition-all"></span>
+                    <span class="block w-6 h-0.5 bg-white transition-all"></span>
                 </button>
                 <button>
                     <label for="serch">
@@ -29,13 +32,13 @@
                     <span>search</span>
                 </button>
             </div>
-            <div class="search-container">
+            <div class="search-container bg-slate-500/30 backdrop-blur-xl hidden md:flex justify-between rounded-4xl p-5"">
                 <label for="search">
                     <input type="text" placeholder="search the loaction">
                     <span class="material-symbols-outlined">search</span>
                 </label>
             </div>
-            <aside>
+            <aside class="bg-slate-500/30 backdrop-blur-xl order-1 md:row-span-4 md:order-0 rounded">
                 <h2>Today Forcasting</h2>
                 <div>
 
@@ -83,7 +86,7 @@
 
                 </div>
             </aside>
-            <section id="weather">
+            <section id="weather" class="p-4 rounded flex  justify-between">
                 <div>
                     <div>
                         <span class="material-symbols-outlined">location_searching</span>
@@ -97,7 +100,7 @@
                     <h2 class="city">London</h2>
                 </div>
             </section>
-            <section id="today">
+            <section id="today" class="bg-slate-500/30 p-2 backdrop-blur-xl rounded flex flex-col gap-3 md:gap-0">
                 <h2>Upcoming Forcasting</h2>
                 <div>
                     <div>
@@ -143,7 +146,7 @@
                     </div>
                 </div>
             </section>
-            <section id="more">
+            <section id="more" class="bg-slate-500/30 p-4 backdrop-blur-xl rounded">
                 <h2>Air Conditions</h2>
                 <div>
                     <div>
