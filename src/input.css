@@ -1,14 +1,5 @@
 @import "tailwindcss";
 
-.live{
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    background-color: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 5vh;
-    padding: 2vh;
-}
 .time{
     display: flex;
     flex-shrink: 0;
@@ -30,4 +21,7 @@
 
 .hide-scroll {
   scrollbar-width: none;
+}
+.important-links span{
+  font-size: 5vw;
 }

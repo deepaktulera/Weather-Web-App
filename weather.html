@@ -6,40 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather</title>
     <link href="./src/output.css" rel="stylesheet">
-    <link rel="stylesheet" href="/src/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
 </head>
 
 <body>
     <div
-        class="min-h-screen w-screen box-border p-2 text-white bg-linear-to-b from-blue-900 to-green-900 grid md:grid-cols-1 lg:grid-cols-[1fr_8fr]">
+        class="wrapper min-h-screen w-screen box-border p-2 text-white bg-linear-to-b from-blue-900 to-green-900 grid sm:grid-cols-[2fr_9fr]">
         <!-- Left aside bar -->
         <aside
-            class="important-links bg-slate-50/30 backdrop-blur-xl rounded-2xl hidden lg:flex lg:flex-col lg:justify-evenly">
-            <button class="cursor-pointer">
-                <span class="material-symbols-outlined">clear_day</span>
-                <h2>Weather</h2>
-            </button>
-            <button class="cursor-pointer">
-                <span class="material-symbols-outlined">my_location</span>
-                <h2>Weather</h2>
-            </button>
+            class="important-links bg-slate-50/30 backdrop-blur-xl rounded-2xl hidden sm:flex sm:flex-col sm:justify-evenly">
             <button id="currect-location" class="cursor-pointer">
                 <span class="material-symbols-outlined">my_location</span>
                 <h2>Current</h2>
             </button>
+            <button id="changeDegree" class="cursor-pointer">
+                <span class="material-symbols-outlined text-9xl">thermometer</span>
+                <h2 id="degree" class="text-3xl">°C</h2>
+            </button>
             <button class="cursor-pointer">
                 <span class="material-symbols-outlined">my_location</span>
-                <h2>Current</h2>
+                <h2>Weather</h2>
+            </button>
+            <button class="cursor-pointer">
+                <span class="material-symbols-outlined">my_location</span>
+                <h2>Upcoming</h2>
             </button>
         </aside>
 
         <!-- main container-->
-        <main class="grid grid-cols-1 md:grid-cols-1 md:p-2 lg:grid-cols-[5fr_1fr]">
-            <section class="left">
+        <main class="grid grid-cols-1 sm:p-2 sm:grid-cols-1">
                 <!-- serch bar -->
-                <header class="flex md:flex-none">
-                    <button class="menu lg:hidden">
+                <header class="flex justify-between items-center md:flex-none">
+                    <button class="menu sm:hidden">
                         <span class="material-symbols-outlined">menu</span>
                     </button>
                     <div class="serch-box p-6 md:w-full">
@@ -53,8 +51,8 @@
                 </header>
 
                 <!-- currrent weather -->
-                <section class="p-2 rounded flex justify-between items-center gap-4">
-                    <div class="text-center md:text-left">
+                <section class="p-2 rounded flex justify-between sm:justify-around items-center gap-4">
+                    <div class="text-center items-start justify-start md:text-left">
                         <div class="flex gap-2">
                             <span class="material-symbols-outlined">air</span>
                             <h2 id="wind">0.3 km/h</h2>
@@ -70,50 +68,34 @@
                     </div>
                 </section>
 
-                <!-- today forecasting -->
-                <section class=" p-4 rounded">
-                    <h2>Today Forecasting</h2>
-                    <div class="flex gap-6 overflow-x-auto mt-3 hide-scroll">
-                        <div class="live p-4">
-                            <h2>9 AM</h2>
+                <!-- Upcoming forecasting -->
+                <section class=" p-4 md:mx-auto overflow-x-auto md:text-center rounded">
+                    <h2>Upcoming Forecasting</h2>
+                    <div id="forecastItems" class="flex gap-4  items-center overflow-x-auto mt-3 hide-scroll">
+                        <div class="time p-4">
+                            <h2>Today</h2>
                             <h2>32 °C</h2>
                             <img src="assest/clouds.svg" alt="">
                         </div>
-
-                        <div class="live p-4">
-                            <h2>10 PM</h2>
-                            <h2>34 °C</h2>
-                            <img src="assest/clear.svg" alt="">
+                        <div class="time p-4">
+                            <h2>Tomorrow</h2>
+                            <h2>32 °C</h2>
+                            <img src="assest/clouds.svg" alt="">
                         </div>
-                        <div class="live p-4 ">
-                            <h2>11 PM</h2>
-                            <h2>34 °C</h2>
-                            <img src="assest/clear.svg" alt="">
+                        <div class="time p-4">
+                            <h2>Wednesday</h2>
+                            <h2>32 °C</h2>
+                            <img src="assest/clouds.svg" alt="">
                         </div>
-                        <div class="live p-4">
-                            <h2>12 PM</h2>
-                            <h2>34 °C</h2>
-                            <img src="assest/clear.svg" alt="">
+                        <div class="time p-4">
+                            <h2>Thursday</h2>
+                            <h2>32 °C</h2>
+                            <img src="assest/clouds.svg" alt="">
                         </div>
-                        <div class="live p-4">
-                            <h2>12 PM</h2>
-                            <h2>34 °C</h2>
-                            <img src="assest/clear.svg" alt="">
-                        </div>
-                        <div class="live p-4">
-                            <h2>12 PM</h2>
-                            <h2>34 °C</h2>
-                            <img src="assest/clear.svg" alt="">
-                        </div>
-                        <div class="live p-4">
-                            <h2>12 PM</h2>
-                            <h2>34 °C</h2>
-                            <img src="assest/clear.svg" alt="">
-                        </div>
-                        <div class="live p-4">
-                            <h2>12 PM</h2>
-                            <h2>34 °C</h2>
-                            <img src="assest/clear.svg" alt="">
+                        <div class="time p-4">
+                            <h2>Friday</h2>
+                            <h2>32 °C</h2>
+                            <img src="assest/clouds.svg" alt="">
                         </div>
                     </div>
                 </section>
@@ -147,55 +129,7 @@
                             <h2 id="sunset">06:20 PM</h2>
                         </div>
                     </div>
-                </section>
             </section>
-            <section class="right">
-                <!-- upcoming forcasting -->
-                <aside class="flex flex-col rounded order-1 p-2 lg:order-0 lg:h-screen">
-                    <h2 class="py-2 lg:text-center">Upcoming Forecasting</h2>
-                    <div class="flex gap-4 p-4 overflow-x-auto lg:flex-col lg:overflow-y-auto lg:h-screen hide-scroll">
-
-                        <div class="time p-4">
-                            <h2>Today</h2>
-                            <h2>32 °C</h2>
-                            <img src="assest/clouds.svg" alt="">
-                        </div>
-                        <div class="time p-4">
-                            <h2>Tomorrow</h2>
-                            <h2>32 °C</h2>
-                            <img src="assest/clouds.svg" alt="">
-                        </div>
-                        <div class="time p-4">
-                            <h2>Wednesday</h2>
-                            <h2>32 °C</h2>
-                            <img src="assest/clouds.svg" alt="">
-                        </div>
-                        <div class="time p-4">
-                            <h2>Thursday</h2>
-                            <h2>32 °C</h2>
-                            <img src="assest/clouds.svg" alt="">
-                        </div>
-                        <div class="time p-4">
-                            <h2>Friday</h2>
-                            <h2>32 °C</h2>
-                            <img src="assest/clouds.svg" alt="">
-                        </div>
-                        <div class="time p-4">
-                            <h2>Saturday</h2>
-                            <h2>32 °C</h2>
-                            <img src="assest/clouds.svg" alt="">
-                        </div>
-                        <div class="time p-4">
-                            <h2>Sunday</h2>
-                            <h2>32 °C</h2>
-                            <img src="assest/clouds.svg" alt="">
-                        </div>
-                    </div>
-                </aside>
-            </section>
-            <div class="notFound">
-
-            </div>
         </main>
     </div>
 
