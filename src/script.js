@@ -22,8 +22,10 @@ const sunriseTxt = document.getElementById("sunrise")
 const humidityTxt = document.getElementById("humidity");
 const sunsetTxt = document.getElementById("sunset");
 const menuBtn = document.querySelector(".menu");
+const closeBtn = document.getElementById("close")
+const wrapperDiv = document.getElementById("wrapper");
 const upcomingContent = document.getElementById("upcoming");
-const sidebar = document.querySelector(".important-links");
+const sidebar = document.getElementById("important-links");
 const sidebarBtns = document.querySelectorAll(".important-links button");
 const forecastItemsContainer = document.getElementById("forecastItems");
 
@@ -65,24 +67,24 @@ let currentTemp = null;
 let isCelsius = true;
 
 changeDegreeTxt.addEventListener("click", () => {
-    
+
     if (currentTemp === null) return;
-    
+
     const forecastTemps = document.querySelectorAll(".forecast-temp");
-    
+
     if (isCelsius) {
-        
-        const fahrenheit = (currentTemp * 9/5) + 32;
+
+        const fahrenheit = (currentTemp * 9 / 5) + 32;
         tempTxt.textContent = Math.round(fahrenheit) + "°F";
         degreeText.innerText = "°F";
-        
+
         forecastTemps.forEach(temp => {
             const c = temp.dataset.temp;
-            const f = (c * 9/5) + 32;
+            const f = (c * 9 / 5) + 32;
             temp.textContent = Math.round(f) + " °F";
         });
-        
-    } 
+
+    }
     else {
 
         tempTxt.textContent = currentTemp + "°C";
@@ -191,6 +193,7 @@ async function getWeatherByCoords(lat, lon) {
     cityTxt.textContent = name;
     currentTemp = Math.floor(temp);
     tempTxt.textContent = currentTemp + '°C';
+
     conditionTxt.textContent = main;
     current_dateTxt.textContent = getCurrentDate();
     windTxt.textContent = speed + ' m/s';
@@ -226,6 +229,15 @@ async function updateWeatherInfo(city) {
     cityTxt.textContent = country;
     currentTemp = Math.floor(temp);
     tempTxt.textContent = currentTemp + '°C';
+    if(currentTemp >= Math.floor(30)){
+        wrapperDiv.classList.remove("from-blue-900", "to-green-900");
+        wrapperDiv.classList.add("from-red-700", "to-yellow-400");
+    }else if(currentTemp <= Math.floor(10)){
+        wrapperDiv.classList.remove("from-blue-900", "to-green-900");
+        wrapperDiv.classList.add("from-blue-400", "to-blue-800");
+    }else{
+        wrapperDiv.classList.add("from-blue-900", "to-green-900");
+    }
     conditionTxt.textContent = main;
     current_dateTxt.textContent = getCurrentDate();
     windTxt.textContent = speed + 'm/s';
@@ -270,12 +282,33 @@ function updateUpcomingForecast(data) {
     const tempC = Math.floor(data.main.temp);
 
     const html = `
-        <div class="time p-4">
-            <h2>${formattedDate}</h2>
-            <h2 class="forecast-temp" data-temp="${tempC}">${tempC} °C</h2>
-            <img src="assest/${getWeatherIcon(data.weather[0].id)}">
-        </div>
-    `;
+            <div class="time p-4">
+                <h2>${formattedDate}</h2>
+                <h2 class="forecast-temp" data-temp="${tempC}">${tempC} °C</h2>
+                <img src="assest/${getWeatherIcon(data.weather[0].id)}">
+            </div>
+        `;
 
     forecastItemsContainer.insertAdjacentHTML("beforeend", html);
 }
+
+function openMenu() {
+    wrapperDiv.style.display = "grid";
+    wrapperDiv.style.gridTemplateColumns = "1fr 3fr";
+    sidebar.style.display = "flex";
+    sidebar.style.flexDirection = "column";
+    menuBtn.style.display = "none";
+}
+
+function closeMenu() {
+    wrapperDiv.style.gridTemplateColumns = "1fr";
+
+    if (window.innerWidth < 640) {
+        sidebar.style.display = "none";
+    }
+
+    menuBtn.style.display = "block";
+}
+
+menuBtn.addEventListener("click", (openMenu));
+closeBtn.addEventListener("click", closeMenu);

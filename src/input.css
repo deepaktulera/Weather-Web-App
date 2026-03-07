@@ -25,3 +25,13 @@
 .important-links span{
   font-size: 5vw;
 }
+
+#close{
+    display: none;
+}
+
+@media (max-width: 640px) {
+  #close{
+    display: block;
+  }
+}
