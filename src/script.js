@@ -4,8 +4,6 @@ const apiCallAny = 'https://api.openweathermap.org/data/2.5/weather?q={city name
 const apiCallCurrent = 'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}&lang=en'
 const apiCallForecast = 'https://api.openweathermap.org/data/2.5/forecast?q={city name}&appid={API key}'
 
-
-
 const cityInput = document.getElementById("city-input");
 const searchBtn = document.getElementById("search");
 const cityTxt = document.getElementById("city-name");
@@ -28,9 +26,11 @@ const upcomingContent = document.getElementById("upcoming");
 const sidebar = document.getElementById("important-links");
 const sidebarBtns = document.querySelectorAll(".important-links button");
 const forecastItemsContainer = document.getElementById("forecastItems");
-
+const errorMsg = document.getElementById("error-msg");
+const recentCitiesDropdown = document.getElementById("recent-cities");
 
 window.addEventListener("load", () => {
+    showRecentCities();
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(gotLocation, failLocation);
     } else {
@@ -38,17 +38,55 @@ window.addEventListener("load", () => {
     }
 });
 
+    function setBackground(id) {
+
+        switch (true) {
+
+            case (id <= 232):
+                wrapperDiv.style.backgroundImage = "url('background/thunderstrom.gif')";
+                break;
+
+            case (id <= 321):
+                wrapperDiv.style.backgroundImage = "url('background/rain.gif')";
+                break;
+
+            case (id <= 531):
+                wrapperDiv.style.backgroundImage = "url('background/rain.gif')";
+                break;
+
+            case (id <= 622):
+                wrapperDiv.style.backgroundImage = "url('background/snow.gif')";
+                break;
+
+            case (id <= 781):
+                wrapperDiv.style.backgroundImage = "url('background/clouds.gif')";
+                break;
+
+            case (id === 800):
+                wrapperDiv.style.backgroundImage = "url('background/clear.gif')";
+                break;
+
+            default:
+                wrapperDiv.style.backgroundImage = "url('background/clouds.gif')";
+        }
+    }
 
 searchBtn.addEventListener('click', () => {
-    if (cityInput.value.trim() != '') {
-        const city = cityInput.value;
 
-        updateWeatherInfo(city);
-        getForcast(city);
+    const city = cityInput.value.trim();
 
-        cityInput.value = '';
-        cityInput.blur();
+    if (city === "") {
+        errorMsg.textContent = "Please enter a city name";
+        return;
     }
+
+    errorMsg.textContent = "";
+
+    updateWeatherInfo(city);
+    getForcast(city);
+    saveCity(city);
+
+    cityInput.value = '';
 })
 
 cityInput.addEventListener('keydown', (event) => {
@@ -122,7 +160,6 @@ function failLocation() {
     console.log("Failed to get location");
 }
 
-
 function getWeatherIcon(id) {
     if (id <= 232) return 'thunderstorm.svg'
     if (id <= 321) return 'drizzle.svg'
@@ -161,15 +198,15 @@ async function getForecastByCoords(lat, lon) {
     const response = await fetch(apiUrl);
     const forecast = await response.json();
 
-    const timeTaken = "12:00:00";
-    const todayDate = new Date().toISOString().split("T")[0];
-
     forecastItemsContainer.innerHTML = "";
 
-    forecast.list.forEach(item => {
-        if (item.dt_txt.includes(timeTaken) && !item.dt_txt.includes(todayDate)) {
-            updateUpcomingForecast(item);
-        }
+    const forecastForDays = forecast.list.filter(item => {
+        const date = new Date(item.dt_txt).getHours();
+        return date === 12;
+    }).slice(0, 5);
+
+    forecastForDays.forEach(item => {
+        updateUpcomingForecast(item);
     });
 }
 
@@ -194,6 +231,9 @@ async function getWeatherByCoords(lat, lon) {
     currentTemp = Math.floor(temp);
     tempTxt.textContent = currentTemp + '°C';
 
+    setBackground(id);
+
+
     conditionTxt.textContent = main;
     current_dateTxt.textContent = getCurrentDate();
     windTxt.textContent = speed + ' m/s';
@@ -204,7 +244,6 @@ async function getWeatherByCoords(lat, lon) {
     sunsetTxt.textContent = formatTime(sunset);
 }
 
-
 async function getFetchData(city) {
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
     const response = await fetch(apiUrl);
@@ -214,9 +253,12 @@ async function getFetchData(city) {
 async function updateWeatherInfo(city) {
     const weatherData = await getFetchData(city);
     if (!weatherData || weatherData.cod != 200 || !weatherData.main) {
+        errorMsg.textContent = "City not found. Try again.";
+        clearWeatherData();
         console.error('Invalid weather data:', weatherData);
         return;
     }
+    errorMsg.textContent = "";
 
     const {
         name: country,
@@ -229,15 +271,9 @@ async function updateWeatherInfo(city) {
     cityTxt.textContent = country;
     currentTemp = Math.floor(temp);
     tempTxt.textContent = currentTemp + '°C';
-    if(currentTemp >= Math.floor(30)){
-        wrapperDiv.classList.remove("from-blue-900", "to-green-900");
-        wrapperDiv.classList.add("from-red-700", "to-yellow-400");
-    }else if(currentTemp <= Math.floor(10)){
-        wrapperDiv.classList.remove("from-blue-900", "to-green-900");
-        wrapperDiv.classList.add("from-blue-400", "to-blue-800");
-    }else{
-        wrapperDiv.classList.add("from-blue-900", "to-green-900");
-    }
+
+    setBackground(id);
+    
     conditionTxt.textContent = main;
     current_dateTxt.textContent = getCurrentDate();
     windTxt.textContent = speed + 'm/s';
@@ -258,16 +294,14 @@ async function getForecastData(city) {
 async function getForcast(city) {
     const forecast = await getForecastData(city);
 
-    const timeTaken = "12:00:00";
-    const todayDate = new Date().toISOString().split("T")[0];
-
     forecastItemsContainer.innerHTML = "";
 
-    forecast.list.forEach(item => {
-        if (item.dt_txt.includes(timeTaken) && !item.dt_txt.includes(todayDate)) {
-            updateUpcomingForecast(item);
-        }
-    });
+    const forecastForDays = forecast.list.filter(item => {
+        const date = new Date(item.dt_txt).getHours();
+        return date === 12;
+    }).slice(0, 5);
+
+    forecastForDays.forEach(item => updateUpcomingForecast(item));
 }
 
 function updateUpcomingForecast(data) {
@@ -282,12 +316,22 @@ function updateUpcomingForecast(data) {
     const tempC = Math.floor(data.main.temp);
 
     const html = `
-            <div class="time p-4">
-                <h2>${formattedDate}</h2>
-                <h2 class="forecast-temp" data-temp="${tempC}">${tempC} °C</h2>
-                <img src="assest/${getWeatherIcon(data.weather[0].id)}">
-            </div>
-        `;
+    <div class="time p-4 min-w-30 bg-slate-500/50 backdrop-blur-xl rounded-2xl">
+        <h2>${formattedDate}</h2>
+        <h2 class="forecast-temp" data-temp="${tempC}">${tempC} °C</h2>
+        <img src="assest/${getWeatherIcon(data.weather[0].id)}">
+
+        <p class="flex items-center gap-1">
+            <span class="material-symbols-outlined">air</span>
+            ${data.wind.speed} m/s
+        </p>
+
+        <p class="flex items-center gap-1">
+            <span class="material-symbols-outlined">humidity_low</span>
+            ${data.main.humidity}%
+        </p>
+    </div>
+`;
 
     forecastItemsContainer.insertAdjacentHTML("beforeend", html);
 }
@@ -312,3 +356,61 @@ function closeMenu() {
 
 menuBtn.addEventListener("click", (openMenu));
 closeBtn.addEventListener("click", closeMenu);
+
+function saveCity(city) {
+
+    let cities = JSON.parse(localStorage.getItem("cities")) || [];
+
+    if (!cities.includes(city)) {
+        cities.push(city);
+    }
+
+    localStorage.setItem("cities", JSON.stringify(cities));
+
+    showRecentCities();
+}
+
+function showRecentCities() {
+
+    let cities = JSON.parse(localStorage.getItem("cities")) || [];
+
+    if (cities.length === 0) {
+        recentCitiesDropdown.style.display = "none";
+        return;
+    }
+
+    recentCitiesDropdown.innerHTML = "";
+
+    cities.forEach(city => {
+
+        const option = document.createElement("option");
+        option.textContent = city;
+
+        recentCitiesDropdown.appendChild(option);
+    });
+
+    recentCitiesDropdown.style.display = "block";
+}
+
+recentCitiesDropdown.addEventListener("change", () => {
+
+    const city = recentCitiesDropdown.value;
+
+    updateWeatherInfo(city);
+    getForcast(city);
+});
+
+function clearWeatherData() {
+
+    cityTxt.textContent = "--";
+    tempTxt.textContent = "--";
+    conditionTxt.textContent = "--";
+    windTxt.textContent = "--";
+    feelTxt.textContent = "--";
+    sunriseTxt.textContent = "--";
+    humidityTxt.textContent = "--";
+    sunsetTxt.textContent = "--";
+    current_dateTxt.textContent = "--";
+    forecastItemsContainer.innerHTML = "--";
+    
+}

@@ -11,10 +11,10 @@
 
 <body>
     <div id="wrapper"
-        class="min-h-screen w-screen box-border p-2 text-white bg-linear-to-b from-blue-900 to-green-900 grid sm:grid-cols-[2fr_9fr]">
+        class="min-h-screen w-screen box-border p-4 text-white bg-linear-to-b from-green-400 to-blue-500 grid sm:grid-cols-[1fr_9fr]">
         <!-- Left aside bar -->
         <aside id="important-links"
-            class="bg-slate-50/30 backdrop-blur-xl rounded-2xl hidden sm:flex sm:flex-col sm:justify-center py-20 gap-8">
+            class="bg-slate-500/40 backdrop-blur-xl rounded-2xl hidden sm:flex sm:flex-col sm:justify-center py-20 gap-8">
 
             <span id="close" class="material-symbols-outlined self-center flex cursor-pointer">close</span>
             <section class="flex flex-col h-[50vh] justify-between items-center">
@@ -45,22 +45,24 @@
         <!-- main container-->
         <main class="grid grid-cols-1 sm:p-2 sm:grid-cols-1">
             <!-- serch bar -->
-            <header class="flex justify-between items-center md:flex-none">
+            <header class="flex justify-between items-center py-4 md:flex-none">
                 <button class="menu sm:hidden">
                     <span class="material-symbols-outlined">menu</span>
                 </button>
-                <div class="serch-box p-6 md:w-full">
+                <div class="serch-box md:w-full">
                     <div
-                        class="flex justify-between items-center bg-slate-500/30 backdrop-blur-xl rounded-4xl px-4 py-4 lg:py-4">
+                        class="flex justify-between items-center bg-slate-500/40 backdrop-blur-xl rounded-4xl px-4 py-4 lg:py-4">
                         <input id="city-input" class="outline-none bg-transparent w-full" type="text"
                             placeholder="Enter city">
                         <span id="search" class="material-symbols-outlined">search</span>
                     </div>
+                    <p id="error-msg" class="text-red-200 text-sm mt-2"></p>
+                    <select id="recent-cities" class="mt-2 bg-slate-500/30 p-2 rounded-xl hidden"></select>
                 </div>
             </header>
 
             <!-- currrent weather -->
-            <section class="p-2 rounded flex justify-between sm:justify-around items-center gap-4">
+            <section class="bg-slate-500/40 backdrop-blur-xl p-2  rounded-4xl flex justify-between sm:justify-around items-center gap-4">
                 <div class="text-center items-start justify-start md:text-left">
                     <div class="flex gap-2">
                         <span class="material-symbols-outlined">air</span>
@@ -78,39 +80,60 @@
             </section>
 
             <!-- Upcoming forecasting -->
-            <section class=" p-4 md:mx-auto overflow-x-auto md:text-center rounded">
+            <section class=" py-2 md:mx-auto overflow-x-auto md:text-center  rounded-4xl p-2">
                 <h2>Upcoming Forecasting</h2>
-                <div id="forecastItems" class="flex gap-4  items-center overflow-x-auto mt-3 hide-scroll">
-                    <div class="time p-4">
+
+                <div id="forecastItems" class="flex gap-4 shrink-0 items-center overflow-x-auto mt-3 hide-scroll">
+
+                    <div class="time p-4 min-w-30 bg-slate-500/40 backdrop-blur-xl rounded-2xl">
                         <h2>Today</h2>
                         <h2>32 °C</h2>
                         <img src="assest/clouds.svg" alt="">
+                        <p class="flex items-center gap-1"><span class="material-symbols-outlined">air</span>5 m/s</p>
+                        <p class="flex items-center gap-1"><span class="material-symbols-outlined">humidity_low</span>3
+                            %</p>
                     </div>
-                    <div class="time p-4">
+
+                    <div class="time p-4 min-w-30 bg-slate-500/40 backdrop-blur-xl rounded-2xl">
                         <h2>Tomorrow</h2>
                         <h2>32 °C</h2>
                         <img src="assest/clouds.svg" alt="">
+                        <p class="flex items-center gap-1"><span class="material-symbols-outlined">air</span>5 m/s</p>
+                        <p class="flex items-center gap-1"><span class="material-symbols-outlined">humidity_low</span>3
+                            %</p>
                     </div>
-                    <div class="time p-4">
+
+                    <div class="time p-4 min-w-30 bg-slate-500/40 backdrop-blur-xl rounded-2xl">
                         <h2>Wednesday</h2>
                         <h2>32 °C</h2>
                         <img src="assest/clouds.svg" alt="">
+                        <p class="flex items-center gap-1"><span class="material-symbols-outlined">air</span>5 m/s</p>
+                        <p class="flex items-center gap-1"><span class="material-symbols-outlined">humidity_low</span>3
+                            %</p>
                     </div>
-                    <div class="time p-4">
+
+                    <div class="time p-4 min-w-30 bg-slate-500/40 backdrop-blur-xl rounded-2xl">
                         <h2>Thursday</h2>
                         <h2>32 °C</h2>
                         <img src="assest/clouds.svg" alt="">
+                        <p class="flex items-center gap-1"><span class="material-symbols-outlined">air</span>5 m/s</p>
+                        <p class="flex items-center gap-1"><span class="material-symbols-outlined">humidity_low</span>3
+                            %</p>
                     </div>
-                    <div class="time p-4">
+
+                    <div class="time p-4 min-w-30 bg-slate-500/40 backdrop-blur-xl rounded-2xl">
                         <h2>Friday</h2>
                         <h2>32 °C</h2>
                         <img src="assest/clouds.svg" alt="">
+                        <p class="flex items-center gap-1"><span class="material-symbols-outlined">air</span>5 m/s</p>
+                        <p class="flex items-center gap-1"><span class="material-symbols-outlined">humidity_low</span>3
+                            %</p>
                     </div>
+
                 </div>
             </section>
-
             <!-- condition -->
-            <section class="bg-slate-800/30 backdrop-blur-xl p-4 rounded">
+            <section class="bg-slate-500/40 backdrop-blur-xl p-4 rounded-4xl">
                 <h2>Air Conditions</h2>
 
                 <div class="grid grid-cols-2 gap-6 mt-4">

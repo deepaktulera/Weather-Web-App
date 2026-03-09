@@ -3,11 +3,12 @@
 .time{
     display: flex;
     flex-shrink: 0;
-     background-color: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
     flex-direction: column;
-    border-radius: 5vh;
-    padding: 2vh;
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    min-width: 120px;
+    padding: 12px;
 }
 .feel-text{
     display: flex;
@@ -34,4 +35,10 @@
   #close{
     display: block;
   }
+}
+
+#wrapper{
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
 }
