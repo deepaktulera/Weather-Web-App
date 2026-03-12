@@ -29,6 +29,31 @@ const forecastItemsContainer = document.getElementById("forecastItems");
 const errorMsg = document.getElementById("error-msg");
 const recentCitiesDropdown = document.getElementById("recent-cities");
 
+function saveCity(city) {
+
+    let cities = JSON.parse(localStorage.getItem("cities")) || [];
+
+    if (!cities.includes(city)) {
+        cities.push(city);
+    }
+    else if(!weatherData || weatherData.cod != 200 || !weatherData.main){
+        cities.splice(index,1)
+    }
+
+    localStorage.setItem("cities", JSON.stringify(cities));
+
+    showRecentCities();
+}
+
+function removeCities(){
+    localStorage.removeItem("cities");
+}
+
+let check = confirm("Do you want to delete cites ??");
+if (check){
+    removeCities()
+}
+
 window.addEventListener("load", () => {
     showRecentCities();
     if (navigator.geolocation) {
@@ -38,50 +63,50 @@ window.addEventListener("load", () => {
     }
 });
 
-    function setBackground(id) {
-
+function setBackground(id) {
+    
         switch (true) {
-
+            
             case (id <= 232):
                 wrapperDiv.style.backgroundImage = "url('background/thunderstrom.gif')";
                 break;
-
-            case (id <= 321):
+                
+                case (id <= 321):
                 wrapperDiv.style.backgroundImage = "url('background/rain.gif')";
                 break;
+                
+                case (id <= 531):
+                    wrapperDiv.style.backgroundImage = "url('background/rain.gif')";
+                    break;
 
-            case (id <= 531):
-                wrapperDiv.style.backgroundImage = "url('background/rain.gif')";
+                    case (id <= 622):
+                        wrapperDiv.style.backgroundImage = "url('background/snow.gif')";
                 break;
 
-            case (id <= 622):
-                wrapperDiv.style.backgroundImage = "url('background/snow.gif')";
-                break;
-
-            case (id <= 781):
+                case (id <= 781):
                 wrapperDiv.style.backgroundImage = "url('background/clouds.gif')";
                 break;
 
-            case (id === 800):
+                case (id === 800):
                 wrapperDiv.style.backgroundImage = "url('background/clear.gif')";
                 break;
-
-            default:
-                wrapperDiv.style.backgroundImage = "url('background/clouds.gif')";
+                
+                default:
+                    wrapperDiv.style.backgroundImage = "url('background/clouds.gif')";
         }
     }
 
 searchBtn.addEventListener('click', () => {
-
+    
     const city = cityInput.value.trim();
-
+    
     if (city === "") {
         errorMsg.textContent = "Please enter a city name";
         return;
     }
-
+    
     errorMsg.textContent = "";
-
+    
     updateWeatherInfo(city);
     getForcast(city);
     saveCity(city);
@@ -91,10 +116,12 @@ searchBtn.addEventListener('click', () => {
 
 cityInput.addEventListener('keydown', (event) => {
     if (event.key == 'Enter' && cityInput.value.trim() != '') {
+
         const city = cityInput.value;
 
         updateWeatherInfo(city);
         getForcast(city);
+        saveCity(city); 
 
         cityInput.value = '';
         cityInput.blur();
@@ -357,19 +384,6 @@ function closeMenu() {
 menuBtn.addEventListener("click", (openMenu));
 closeBtn.addEventListener("click", closeMenu);
 
-function saveCity(city) {
-
-    let cities = JSON.parse(localStorage.getItem("cities")) || [];
-
-    if (!cities.includes(city)) {
-        cities.push(city);
-    }
-
-    localStorage.setItem("cities", JSON.stringify(cities));
-
-    showRecentCities();
-}
-
 function showRecentCities() {
 
     let cities = JSON.parse(localStorage.getItem("cities")) || [];
@@ -387,9 +401,13 @@ function showRecentCities() {
         option.textContent = city;
 
         recentCitiesDropdown.appendChild(option);
+        recentCitiesDropdown.style.backgroundColor = "transparent";
+        recentCitiesDropdown.style.color = "black";
+        
     });
 
     recentCitiesDropdown.style.display = "block";
+
 }
 
 recentCitiesDropdown.addEventListener("change", () => {

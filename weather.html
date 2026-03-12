@@ -43,26 +43,36 @@
 
         </aside>
         <!-- main container-->
-        <main class="grid grid-cols-1 sm:p-2 sm:grid-cols-1">
+        <main class="grid grid-cols-1 gap-1 sm:p-2 sm:grid-cols-1">
             <!-- serch bar -->
             <header class="flex justify-between items-center py-4 md:flex-none">
                 <button class="menu sm:hidden">
                     <span class="material-symbols-outlined">menu</span>
                 </button>
+
                 <div class="serch-box md:w-full">
+
+                    <!-- Search bar -->
                     <div
                         class="flex justify-between items-center bg-slate-500/40 backdrop-blur-xl rounded-4xl px-4 py-4 lg:py-4">
                         <input id="city-input" class="outline-none bg-transparent w-full" type="text"
                             placeholder="Enter city">
                         <span id="search" class="material-symbols-outlined">search</span>
                     </div>
+
+                    <!-- Error message -->
                     <p id="error-msg" class="text-red-200 text-sm mt-2"></p>
-                    <select id="recent-cities" class="mt-2 bg-slate-500/30 p-2 rounded-xl hidden"></select>
+
+                    <!-- Recent cities dropdown -->
+                    <select id="recent-cities"
+                        class="mt-2 bg-slate-500/30 backdrop-blur-xl p-2 w-full rounded-xl hidden">
+                    </select>
+
                 </div>
             </header>
-
             <!-- currrent weather -->
-            <section class="bg-slate-500/40 backdrop-blur-xl p-2  rounded-4xl flex justify-between sm:justify-around items-center gap-4">
+            <section
+                class="bg-slate-500/40 backdrop-blur-xl p-2  rounded-4xl flex justify-between sm:justify-around items-center gap-4">
                 <div class="text-center items-start justify-start md:text-left">
                     <div class="flex gap-2">
                         <span class="material-symbols-outlined">air</span>
