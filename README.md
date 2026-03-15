@@ -44,7 +44,9 @@ By using this i have added lots of functionality on web app
 
 ### Weather API
 
-It helps us to get the wether data accordint to the location , city you have given
+You can get Weather api from Open Weather & Weather Api
+
+It helps us to get the wether data according to the location , city you have given
 
 ---
 
@@ -67,3 +69,9 @@ npm install tailwindcss @tailwindcss/cli
 * Allow location permission to check the current weather of your location.
 * Or search any city name to get weather information.
 * View temperature, humidity, wind speed, sunrise and sunset.
+
+## Screenshots
+
+* ![alt text](/screenshots/home.png)
+* ![alt text](/screenshots/mobile.png)
+* ![alt text](/screenshots/tablet.png)
