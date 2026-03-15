@@ -28,6 +28,7 @@ const sidebarBtns = document.querySelectorAll(".important-links button");
 const forecastItemsContainer = document.getElementById("forecastItems");
 const errorMsg = document.getElementById("error-msg");
 const recentCitiesDropdown = document.getElementById("recent-cities");
+const removeCitesBtn = document.getElementById("remove-cities");
 
 function saveCity(city) {
 
@@ -36,23 +37,13 @@ function saveCity(city) {
     if (!cities.includes(city)) {
         cities.push(city);
     }
-    else if(!weatherData || weatherData.cod != 200 || !weatherData.main){
-        cities.splice(index,1)
-    }
 
     localStorage.setItem("cities", JSON.stringify(cities));
 
     showRecentCities();
 }
 
-function removeCities(){
-    localStorage.removeItem("cities");
-}
 
-let check = confirm("Do you want to delete cites ??");
-if (check){
-    removeCities()
-}
 
 window.addEventListener("load", () => {
     showRecentCities();
@@ -78,16 +69,16 @@ function setBackground(id) {
                 case (id <= 531):
                     wrapperDiv.style.backgroundImage = "url('background/rain.gif')";
                     break;
-
+ 
                     case (id <= 622):
                         wrapperDiv.style.backgroundImage = "url('background/snow.gif')";
                 break;
 
                 case (id <= 781):
-                wrapperDiv.style.backgroundImage = "url('background/clouds.gif')";
+                wrapperDiv.style.backgroundImage = "url('background/atmosphere.gif')";
                 break;
 
-                case (id === 800):
+                case (id <= 800):
                 wrapperDiv.style.backgroundImage = "url('background/clear.gif')";
                 break;
                 
@@ -95,6 +86,14 @@ function setBackground(id) {
                     wrapperDiv.style.backgroundImage = "url('background/clouds.gif')";
         }
     }
+
+     function checkExtremeTemp(temp){
+
+    if(temp >= 40){
+        errorMsg.textContent = "⚠ Extreme Heat Warning! Temperature above 40°C";
+        errorMsg.style.color = "red";
+    }
+}
 
 searchBtn.addEventListener('click', () => {
     
@@ -114,6 +113,9 @@ searchBtn.addEventListener('click', () => {
     cityInput.value = '';
 })
 
+saveCity("Delhi"); 
+saveCity("Mumbai"); 
+
 cityInput.addEventListener('keydown', (event) => {
     if (event.key == 'Enter' && cityInput.value.trim() != '') {
 
@@ -121,7 +123,7 @@ cityInput.addEventListener('keydown', (event) => {
 
         updateWeatherInfo(city);
         getForcast(city);
-        saveCity(city); 
+        saveCity(city)
 
         cityInput.value = '';
         cityInput.blur();
@@ -134,6 +136,7 @@ let isCelsius = true;
 changeDegreeTxt.addEventListener("click", () => {
 
     if (currentTemp === null) return;
+
 
     const forecastTemps = document.querySelectorAll(".forecast-temp");
 
@@ -171,7 +174,7 @@ currectLocationBtn.addEventListener('click', () => {
 
 if (upcomingContent) {
     upcomingContent.addEventListener("click", () => {
-        console.log("Hello");
+
     });
 }
 
@@ -244,23 +247,25 @@ async function getWeatherByCoords(lat, lon) {
     const response = await fetch(apiUrl);
     const weatherData = await response.json();
 
-    if (weatherData.cod != 200) return;
+    try{
+        if (weatherData.cod != 200) return;
+        const {
+            name,
+            main: { humidity, temp, feels_like },
+            weather: [{ id, main }],
+            sys: { sunrise, sunset },
+            wind: { speed },
+        } = weatherData;
+        cityTxt.textContent = name;
 
-    const {
-        name,
-        main: { humidity, temp, feels_like },
-        weather: [{ id, main }],
-        sys: { sunrise, sunset },
-        wind: { speed },
-    } = weatherData;
-
-    cityTxt.textContent = name;
-    currentTemp = Math.floor(temp);
-    tempTxt.textContent = currentTemp + '°C';
-
-    setBackground(id);
-
-
+        currentTemp = Math.floor(temp);
+        tempTxt.textContent = currentTemp + '°C';
+        checkExtremeTemp(currentTemp);
+        
+        
+        setBackground(id);
+        
+        
     conditionTxt.textContent = main;
     current_dateTxt.textContent = getCurrentDate();
     windTxt.textContent = speed + ' m/s';
@@ -269,6 +274,10 @@ async function getWeatherByCoords(lat, lon) {
     sunriseTxt.textContent = formatTime(sunrise);
     humidityTxt.textContent = humidity + '%';
     sunsetTxt.textContent = formatTime(sunset);
+    }
+    catch (err){
+        console.log("City Not Found")
+    }
 }
 
 async function getFetchData(city) {
@@ -279,26 +288,34 @@ async function getFetchData(city) {
 
 async function updateWeatherInfo(city) {
     const weatherData = await getFetchData(city);
-    if (!weatherData || weatherData.cod != 200 || !weatherData.main) {
-        errorMsg.textContent = "City not found. Try again.";
-        clearWeatherData();
-        console.error('Invalid weather data:', weatherData);
-        return;
-    }
-    errorMsg.textContent = "";
 
-    const {
-        name: country,
+    try{
+
+        if (!weatherData || weatherData.cod != 200 || !weatherData.main) {
+            errorMsg.textContent = "City not found. Try again.";
+            clearWeatherData();
+            console.error('Invalid weather data:', weatherData);
+            return;
+        }
+    }
+    catch (err){
+        console.log("City Invalid")
+    }
+        errorMsg.textContent = "";
+        
+        const {
+            name: country,
         main: { humidity, temp, feels_like },
         weather: [{ id, main }],
         sys: { sunrise, sunset },
         wind: { speed },
     } = weatherData
-
+    
     cityTxt.textContent = country;
     currentTemp = Math.floor(temp);
     tempTxt.textContent = currentTemp + '°C';
-
+    checkExtremeTemp(currentTemp);
+    
     setBackground(id);
     
     conditionTxt.textContent = main;
@@ -311,6 +328,8 @@ async function updateWeatherInfo(city) {
     sunsetTxt.textContent = formatTime(sunset);
 
 }
+
+
 
 async function getForecastData(city) {
     const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
@@ -364,7 +383,6 @@ function updateUpcomingForecast(data) {
 }
 
 function openMenu() {
-    wrapperDiv.style.display = "grid";
     wrapperDiv.style.gridTemplateColumns = "1fr 3fr";
     sidebar.style.display = "flex";
     sidebar.style.flexDirection = "column";
@@ -372,8 +390,7 @@ function openMenu() {
 }
 
 function closeMenu() {
-    wrapperDiv.style.gridTemplateColumns = "1fr";
-
+    wrapperDiv.style.gridTemplateColumns = "1fr"
     if (window.innerWidth < 640) {
         sidebar.style.display = "none";
     }
@@ -401,7 +418,7 @@ function showRecentCities() {
         option.textContent = city;
 
         recentCitiesDropdown.appendChild(option);
-        recentCitiesDropdown.style.backgroundColor = "transparent";
+;        recentCitiesDropdown.style.backgroundColor = "transparent";
         recentCitiesDropdown.style.color = "black";
         
     });
@@ -417,6 +434,14 @@ recentCitiesDropdown.addEventListener("change", () => {
     updateWeatherInfo(city);
     getForcast(city);
 });
+
+function removeCites () {
+    localStorage.removeItem("cities")
+}
+
+removeCitesBtn.addEventListener("click" , () =>{
+    removeCites()
+})
 
 function clearWeatherData() {
 

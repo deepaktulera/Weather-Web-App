@@ -42,3 +42,14 @@ background-size: cover;
 background-position: center;
 background-repeat: no-repeat;
 }
+
+#recent-cities{
+    width:100%;
+    margin-top:8px;
+    padding:10px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.2);
+    backdrop-filter:blur(10px);
+    color:white;
+    border:none;
+}
