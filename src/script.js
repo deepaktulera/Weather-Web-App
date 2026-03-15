@@ -30,6 +30,27 @@ const errorMsg = document.getElementById("error-msg");
 const recentCitiesDropdown = document.getElementById("recent-cities");
 const removeCitesBtn = document.getElementById("remove-cities");
 
+function showError(message) {
+    errorMsg.textContent = message;
+    errorMsg.style.display = "block";
+    errorMsg.style.color = "white";
+    errorMsg.style.backgroundColor = "rgba(220, 38, 38, 0.9)";
+    errorMsg.style.padding = "10px 14px";
+    errorMsg.style.borderRadius = "10px";
+    errorMsg.style.marginTop = "10px";
+    errorMsg.style.fontWeight = "600";
+
+    clearTimeout(showError.timeoutId);
+    showError.timeoutId = setTimeout(() => {
+        hideError();
+    }, 4000);
+}
+
+function hideError() {
+    errorMsg.textContent = "";
+    errorMsg.style.display = "none";
+}
+
 function saveCity(city) {
 
     let cities = JSON.parse(localStorage.getItem("cities")) || [];
@@ -43,69 +64,67 @@ function saveCity(city) {
     showRecentCities();
 }
 
-
-
 window.addEventListener("load", () => {
     showRecentCities();
+    hideError();
+
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(gotLocation, failLocation);
     } else {
-        console.log("Geolocation not supported");
+        showError("Geolocation not supported by your browser.");
     }
 });
 
 function setBackground(id) {
-    
-        switch (true) {
-            
-            case (id <= 232):
-                wrapperDiv.style.backgroundImage = "url('background/thunderstrom.gif')";
-                break;
-                
-                case (id <= 321):
-                wrapperDiv.style.backgroundImage = "url('background/rain.gif')";
-                break;
-                
-                case (id <= 531):
-                    wrapperDiv.style.backgroundImage = "url('background/rain.gif')";
-                    break;
- 
-                    case (id <= 622):
-                        wrapperDiv.style.backgroundImage = "url('background/snow.gif')";
-                break;
 
-                case (id <= 781):
-                wrapperDiv.style.backgroundImage = "url('background/atmosphere.gif')";
-                break;
+    switch (true) {
 
-                case (id <= 800):
-                wrapperDiv.style.backgroundImage = "url('background/clear.gif')";
-                break;
-                
-                default:
-                    wrapperDiv.style.backgroundImage = "url('background/clouds.gif')";
-        }
+        case (id <= 232):
+            wrapperDiv.style.backgroundImage = "url('background/thunderstrom.gif')";
+            break;
+
+        case (id <= 321):
+            wrapperDiv.style.backgroundImage = "url('background/rain.gif')";
+            break;
+
+        case (id <= 531):
+            wrapperDiv.style.backgroundImage = "url('background/rain.gif')";
+            break;
+
+        case (id <= 622):
+            wrapperDiv.style.backgroundImage = "url('background/snow.gif')";
+            break;
+
+        case (id <= 781):
+            wrapperDiv.style.backgroundImage = "url('background/atmosphere.gif')";
+            break;
+
+        case (id <= 800):
+            wrapperDiv.style.backgroundImage = "url('background/clear.gif')";
+            break;
+
+        default:
+            wrapperDiv.style.backgroundImage = "url('background/clouds.gif')";
     }
+}
 
-     function checkExtremeTemp(temp){
-
-    if(temp >= 40){
-        errorMsg.textContent = "⚠ Extreme Heat Warning! Temperature above 40°C";
-        errorMsg.style.color = "red";
+function checkExtremeTemp(temp) {
+    if (temp >= 40) {
+        showError("⚠ Extreme Heat Warning! Temperature above 40°C");
     }
 }
 
 searchBtn.addEventListener('click', () => {
-    
+
     const city = cityInput.value.trim();
-    
+
     if (city === "") {
-        errorMsg.textContent = "Please enter a city name";
+        showError("Please enter a city name");
         return;
     }
-    
-    errorMsg.textContent = "";
-    
+
+    hideError();
+
     updateWeatherInfo(city);
     getForcast(city);
     saveCity(city);
@@ -113,13 +132,19 @@ searchBtn.addEventListener('click', () => {
     cityInput.value = '';
 })
 
-saveCity("Delhi"); 
-saveCity("Mumbai"); 
+saveCity("Delhi");
+saveCity("Mumbai");
 
 cityInput.addEventListener('keydown', (event) => {
-    if (event.key == 'Enter' && cityInput.value.trim() != '') {
+    if (event.key == 'Enter') {
+        const city = cityInput.value.trim();
 
-        const city = cityInput.value;
+        if (city === "") {
+            showError("Please enter a city name");
+            return;
+        }
+
+        hideError();
 
         updateWeatherInfo(city);
         getForcast(city);
@@ -137,7 +162,6 @@ changeDegreeTxt.addEventListener("click", () => {
 
     if (currentTemp === null) return;
 
-
     const forecastTemps = document.querySelectorAll(".forecast-temp");
 
     if (isCelsius) {
@@ -147,7 +171,7 @@ changeDegreeTxt.addEventListener("click", () => {
         degreeText.innerText = "°F";
 
         forecastTemps.forEach(temp => {
-            const c = temp.dataset.temp;
+            const c = Number(temp.dataset.temp);
             const f = (c * 9 / 5) + 32;
             temp.textContent = Math.round(f) + " °F";
         });
@@ -169,7 +193,11 @@ changeDegreeTxt.addEventListener("click", () => {
 });
 
 currectLocationBtn.addEventListener('click', () => {
-    navigator.geolocation.getCurrentPosition(gotLocation, failLocation);
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(gotLocation, failLocation);
+    } else {
+        showError("Geolocation not supported by your browser.");
+    }
 });
 
 if (upcomingContent) {
@@ -182,12 +210,33 @@ function gotLocation(position) {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
 
+    hideError();
     getWeatherByCoords(lat, lon);
     getForecastByCoords(lat, lon);
 }
 
-function failLocation() {
-    console.log("Failed to get location");
+function failLocation(error) {
+    console.error("Failed to get location", error);
+
+    if (!error) {
+        showError("Unable to get your current location.");
+        return;
+    }
+
+    switch (error.code) {
+        case error.PERMISSION_DENIED:
+            showError("Location access denied. Please allow location permission.");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            showError("Location information is unavailable.");
+            break;
+        case error.TIMEOUT:
+            showError("Location request timed out.");
+            break;
+        default:
+            showError("Unable to get your current location.");
+            break;
+    }
 }
 
 function getWeatherIcon(id) {
@@ -222,33 +271,58 @@ function formatTime(timestamp) {
 }
 
 async function getForecastByCoords(lat, lon) {
+    try {
+        const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
-    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+        const response = await fetch(apiUrl);
 
-    const response = await fetch(apiUrl);
-    const forecast = await response.json();
+        if (!response.ok) {
+            throw new Error("Forecast API request failed");
+        }
 
-    forecastItemsContainer.innerHTML = "";
+        const forecast = await response.json();
 
-    const forecastForDays = forecast.list.filter(item => {
-        const date = new Date(item.dt_txt).getHours();
-        return date === 12;
-    }).slice(0, 5);
+        if (!forecast || forecast.cod != "200" || !forecast.list) {
+            forecastItemsContainer.innerHTML = "";
+            showError("Forecast not available for current location.");
+            return;
+        }
 
-    forecastForDays.forEach(item => {
-        updateUpcomingForecast(item);
-    });
+        forecastItemsContainer.innerHTML = "";
+
+        const forecastForDays = forecast.list.filter(item => {
+            const date = new Date(item.dt_txt).getHours();
+            return date === 12;
+        }).slice(0, 5);
+
+        forecastForDays.forEach(item => {
+            updateUpcomingForecast(item);
+        });
+    } catch (error) {
+        console.error("Forecast by coords error:", error);
+        forecastItemsContainer.innerHTML = "";
+        showError("Failed to fetch forecast for current location.");
+    }
 }
 
 async function getWeatherByCoords(lat, lon) {
+    try {
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+        const response = await fetch(apiUrl);
 
-    const response = await fetch(apiUrl);
-    const weatherData = await response.json();
+        if (!response.ok) {
+            throw new Error("Weather API request failed");
+        }
 
-    try{
-        if (weatherData.cod != 200) return;
+        const weatherData = await response.json();
+
+        if (!weatherData || weatherData.cod != 200 || !weatherData.main) {
+            showError("Unable to fetch weather for current location.");
+            clearWeatherData();
+            return;
+        }
+
         const {
             name,
             main: { humidity, temp, feels_like },
@@ -256,98 +330,136 @@ async function getWeatherByCoords(lat, lon) {
             sys: { sunrise, sunset },
             wind: { speed },
         } = weatherData;
+
         cityTxt.textContent = name;
 
         currentTemp = Math.floor(temp);
         tempTxt.textContent = currentTemp + '°C';
         checkExtremeTemp(currentTemp);
-        
-        
+
         setBackground(id);
-        
-        
-    conditionTxt.textContent = main;
-    current_dateTxt.textContent = getCurrentDate();
-    windTxt.textContent = speed + ' m/s';
-    conditionImg.src = `assest/${getWeatherIcon(id)}`;
-    feelTxt.textContent = Math.floor(feels_like) + '°C';
-    sunriseTxt.textContent = formatTime(sunrise);
-    humidityTxt.textContent = humidity + '%';
-    sunsetTxt.textContent = formatTime(sunset);
+
+        conditionTxt.textContent = main;
+        current_dateTxt.textContent = getCurrentDate();
+        windTxt.textContent = speed + ' m/s';
+        conditionImg.src = `assest/${getWeatherIcon(id)}`;
+        feelTxt.textContent = Math.floor(feels_like) + '°C';
+        sunriseTxt.textContent = formatTime(sunrise);
+        humidityTxt.textContent = humidity + '%';
+        sunsetTxt.textContent = formatTime(sunset);
     }
-    catch (err){
-        console.log("City Not Found")
+    catch (err) {
+        console.error("Current location weather error:", err);
+        clearWeatherData();
+        showError("Failed to fetch current location weather.");
     }
 }
 
 async function getFetchData(city) {
-    const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-    const response = await fetch(apiUrl);
-    return response.json();
+    try {
+        const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+            if (response.status === 404) {
+                return { cod: 404 };
+            }
+            throw new Error("Weather API request failed");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("getFetchData error:", error);
+        throw error;
+    }
 }
 
 async function updateWeatherInfo(city) {
-    const weatherData = await getFetchData(city);
+    try {
+        hideError();
 
-    try{
+        const weatherData = await getFetchData(city);
 
         if (!weatherData || weatherData.cod != 200 || !weatherData.main) {
-            errorMsg.textContent = "City not found. Try again.";
+            showError("City not found. Try again.");
             clearWeatherData();
             console.error('Invalid weather data:', weatherData);
             return;
         }
-    }
-    catch (err){
-        console.log("City Invalid")
-    }
-        errorMsg.textContent = "";
-        
+
         const {
             name: country,
-        main: { humidity, temp, feels_like },
-        weather: [{ id, main }],
-        sys: { sunrise, sunset },
-        wind: { speed },
-    } = weatherData
-    
-    cityTxt.textContent = country;
-    currentTemp = Math.floor(temp);
-    tempTxt.textContent = currentTemp + '°C';
-    checkExtremeTemp(currentTemp);
-    
-    setBackground(id);
-    
-    conditionTxt.textContent = main;
-    current_dateTxt.textContent = getCurrentDate();
-    windTxt.textContent = speed + 'm/s';
-    conditionImg.src = `assest/${getWeatherIcon(id)}`;
-    feelTxt.textContent = Math.floor(feels_like) + '°C';
-    sunriseTxt.textContent = formatTime(sunrise);
-    humidityTxt.textContent = humidity + '%';
-    sunsetTxt.textContent = formatTime(sunset);
+            main: { humidity, temp, feels_like },
+            weather: [{ id, main }],
+            sys: { sunrise, sunset },
+            wind: { speed },
+        } = weatherData
 
+        cityTxt.textContent = country;
+        currentTemp = Math.floor(temp);
+        tempTxt.textContent = currentTemp + '°C';
+        checkExtremeTemp(currentTemp);
+
+        setBackground(id);
+
+        conditionTxt.textContent = main;
+        current_dateTxt.textContent = getCurrentDate();
+        windTxt.textContent = speed + ' m/s';
+        conditionImg.src = `assest/${getWeatherIcon(id)}`;
+        feelTxt.textContent = Math.floor(feels_like) + '°C';
+        sunriseTxt.textContent = formatTime(sunrise);
+        humidityTxt.textContent = humidity + '%';
+        sunsetTxt.textContent = formatTime(sunset);
+    }
+    catch (err) {
+        console.error("updateWeatherInfo error:", err);
+        showError("Unable to fetch weather data. Please check your internet connection.");
+        clearWeatherData();
+    }
 }
 
-
-
 async function getForecastData(city) {
-    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
-    const response = await fetch(apiUrl);
-    return response.json();
+    try {
+        const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+        const response = await fetch(apiUrl);
+
+        if (!response.ok) {
+            if (response.status === 404) {
+                return { cod: "404" };
+            }
+            throw new Error("Forecast API request failed");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("getForecastData error:", error);
+        throw error;
+    }
 }
 
 async function getForcast(city) {
-    const forecast = await getForecastData(city);
+    try {
+        const forecast = await getForecastData(city);
 
-    forecastItemsContainer.innerHTML = "";
+        if (!forecast || forecast.cod != "200" || !forecast.list) {
+            forecastItemsContainer.innerHTML = "";
+            showError("Forecast data not available.");
+            return;
+        }
 
-    const forecastForDays = forecast.list.filter(item => {
-        const date = new Date(item.dt_txt).getHours();
-        return date === 12;
-    }).slice(0, 5);
+        forecastItemsContainer.innerHTML = "";
 
-    forecastForDays.forEach(item => updateUpcomingForecast(item));
+        const forecastForDays = forecast.list.filter(item => {
+            const date = new Date(item.dt_txt).getHours();
+            return date === 12;
+        }).slice(0, 5);
+
+        forecastForDays.forEach(item => updateUpcomingForecast(item));
+    } catch (error) {
+        console.error("Forecast API Error:", error);
+        forecastItemsContainer.innerHTML = "";
+        showError("Unable to fetch forecast data.");
+    }
 }
 
 function updateUpcomingForecast(data) {
@@ -407,6 +519,7 @@ function showRecentCities() {
 
     if (cities.length === 0) {
         recentCitiesDropdown.style.display = "none";
+        recentCitiesDropdown.innerHTML = "";
         return;
     }
 
@@ -416,11 +529,12 @@ function showRecentCities() {
 
         const option = document.createElement("option");
         option.textContent = city;
+        option.value = city;
 
         recentCitiesDropdown.appendChild(option);
-;        recentCitiesDropdown.style.backgroundColor = "transparent";
+        recentCitiesDropdown.style.backgroundColor = "transparent";
         recentCitiesDropdown.style.color = "black";
-        
+
     });
 
     recentCitiesDropdown.style.display = "block";
@@ -431,15 +545,19 @@ recentCitiesDropdown.addEventListener("change", () => {
 
     const city = recentCitiesDropdown.value;
 
+    if (!city) return;
+
     updateWeatherInfo(city);
     getForcast(city);
 });
 
-function removeCites () {
-    localStorage.removeItem("cities")
+function removeCites() {
+    localStorage.removeItem("cities");
+    showRecentCities();
+    showError("Recent cities removed successfully.");
 }
 
-removeCitesBtn.addEventListener("click" , () =>{
+removeCitesBtn.addEventListener("click", () => {
     removeCites()
 })
 
@@ -454,6 +572,6 @@ function clearWeatherData() {
     humidityTxt.textContent = "--";
     sunsetTxt.textContent = "--";
     current_dateTxt.textContent = "--";
-    forecastItemsContainer.innerHTML = "--";
-    
+    forecastItemsContainer.innerHTML = "";
+
 }

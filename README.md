@@ -75,3 +75,6 @@ npm install tailwindcss @tailwindcss/cli
 * ![alt text](/screenshots/home.png)
 * ![alt text](/screenshots/mobile.png)
 * ![alt text](/screenshots/tablet.png)
+
+## GitHub link 
+[My Weather App github repository](https://github.com/deepaktulera/Weather-Web-App)
