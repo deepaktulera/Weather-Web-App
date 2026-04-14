@@ -77,35 +77,28 @@ window.addEventListener("load", () => {
 
 function setBackground(id) {
 
-    switch (true) {
-
-        case (id <= 232):
-            wrapperDiv.style.backgroundImage = "url('background/thunderstrom.gif')";
-            break;
-
-        case (id <= 321):
-            wrapperDiv.style.backgroundImage = "url('background/rain.gif')";
-            break;
-
-        case (id <= 531):
-            wrapperDiv.style.backgroundImage = "url('background/rain.gif')";
-            break;
-
-        case (id <= 622):
-            wrapperDiv.style.backgroundImage = "url('background/snow.gif')";
-            break;
-
-        case (id <= 781):
-            wrapperDiv.style.backgroundImage = "url('background/atmosphere.gif')";
-            break;
-
-        case (id <= 800):
-            wrapperDiv.style.backgroundImage = "url('background/clear.gif')";
-            break;
-
-        default:
-            wrapperDiv.style.backgroundImage = "url('background/clouds.gif')";
+    if (id <= 232) {
+        wrapperDiv.style.backgroundImage = "url('background/thunderstorm.gif')";
     }
+    else if (id <= 321) {
+        wrapperDiv.style.backgroundImage = "url('background/rain.gif')";
+    }
+    else if (id <= 531) {
+        wrapperDiv.style.backgroundImage = "url('background/rain.gif')";
+    }
+    else if (id <= 622) {
+        wrapperDiv.style.backgroundImage = "url('background/snow.gif')";
+    }
+    else if (id <= 781) {
+        wrapperDiv.style.backgroundImage = "url('background/atmosphere.gif')";
+    }
+    else if (id <= 800) {
+        wrapperDiv.style.backgroundImage = "url('background/clear.gif')";
+    }
+    else {
+        wrapperDiv.style.backgroundImage = "url('background/clouds.gif')";
+    }
+
 }
 
 function checkExtremeTemp(temp) {
