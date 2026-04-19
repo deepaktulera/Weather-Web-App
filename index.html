@@ -11,32 +11,32 @@
 
 <body>
     <div id="wrapper"
-        class="min-h-screen w-screen box-border p-4 text-white bg-linear-to-b from-green-400 to-blue-500 grid sm:grid-cols-[2fr_8fr]">
+        class="min-h-screen w-screen box-border p-4 text-white bg-linear-to-b from-green-400 to-blue-500 grid sm:grid-cols-[2fr_8fr] lg:grid-cols-[1fr_9fr]">
         <!-- Left aside bar -->
         <aside id="important-links"
-            class="bg-slate-500/40 h-full backdrop-blur-xl rounded-2xl hidden sm:flex sm:flex-col sm:justify-center py-20 gap-8">
+            class=" h-full backdrop-blur-xs rounded-2xl hidden sm:flex sm:flex-col sm:justify-center py-20 gap-8">
 
-            <span id="close" class="material-symbols-outlined self-center flex cursor-pointer">close</span>
+            <span id="close" class="material-symbols-outlined text-black font-semibold self-center flex cursor-pointer">close</span>
             <section class="flex flex-col h-full justify-between items-center">
 
                 <button id="currect-location" class="cursor-pointer">
-                    <span class="material-symbols-outlined">my_location</span>
-                    <h2>Current</h2>
+                    <span class="material-symbols-outlined text-black font-semibold">my_location</span>
+                    <h2 class=" text-black font-semibold">Current</h2>
                 </button>
 
                 <button id="changeDegree" class="cursor-pointer">
-                    <span class="material-symbols-outlined text-9xl">thermometer</span>
-                    <h2 id="degree" class="text-3xl">°C</h2>
+                    <span class="material-symbols-outlined text-black font-semibold text-9xl">thermometer</span>
+                    <h2 id="degree" class="text-3xl text-black font-semibold">°C</h2>
                 </button>
 
                 <button id="remove-cities" class="cursor-pointer">
-                    <span class="material-symbols-outlined">playlist_remove</span>
-                    <h2>Default Cities</h2>
+                    <span class="material-symbols-outlined text-black font-semibold">playlist_remove</span>
+                    <h2 class=" text-black font-semibold">Default Cities</h2>
                 </button>
 
                 <button class="cursor-pointer">
-                    <span class="material-symbols-outlined">my_location</span>
-                    <h2>Upcoming</h2>
+                    <span class="material-symbols-outlined text-black font-semibold">my_location</span>
+                    <h2 class=" text-black font-semibold">Upcoming</h2>
                 </button>
 
             </section>
@@ -47,17 +47,17 @@
             <!-- serch bar -->
             <header class="w-full flex justify-evenly gap-3 items-center py-4 md:flex-none">
                 <button class="menu sm:hidden">
-                    <span class="material-symbols-outlined">menu</span>
+                    <span class="material-symbols-outlined text-black font-semibold">menu</span>
                 </button>
 
                 <div class="serch-box w-full">
 
                     <!-- Search bar -->
                     <div
-                        class="flex justify-between items-center bg-slate-500/40 backdrop-blur-xl rounded-4xl px-4 py-4 lg:py-4">
-                        <input id="city-input" class="outline-none bg-transparent w-full" type="text"
+                        class="flex justify-between items-center  backdrop-blur-xs bg-transparent text-black font-semibold rounded-4xl px-4 py-4 lg:py-4">
+                        <input id="city-input" class="outline-none bg-transparent text-black font-semibold w-full" type="text"
                             placeholder="Enter city">
-                        <span id="search" class="material-symbols-outlined">search</span>
+                        <span id="search" class="material-symbols-outlined text-black font-semibold">search</span>
                     </div>
 
                     <!-- Error message -->
@@ -65,17 +65,17 @@
 
                     <!-- Recent cities dropdown -->
                     <select id="recent-cities"
-                        class="mt-2 bg-slate-500/30 backdrop-blur-xl p-2 w-full rounded-xl hidden">
+                        class="mt-2  backdrop-blur-xs bg-transparent text-black font-semibold p-2 w-full rounded-xl hidden">
                     </select>
 
                 </div>
             </header>
             <!-- currrent weather -->
             <section
-                class="bg-slate-500/40 backdrop-blur-xl p-2  rounded-4xl flex justify-between sm:justify-around items-center gap-4">
+                class=" backdrop-blur-xs bg-transparent text-black font-semibold p-2  rounded-4xl flex justify-between sm:justify-around items-center gap-4">
                 <div class="text-center items-start justify-start md:text-left">
                     <div class="flex gap-2">
-                        <span class="material-symbols-outlined">air</span>
+                        <span class="material-symbols-outlined text-black font-semibold">air</span>
                         <h2 id="wind">0.3 km/h</h2>
                     </div>
                     <h2 id="temp" class="text-4xl">30 °C</h2>
@@ -91,7 +91,7 @@
 
             <!-- Upcoming forecasting -->
             <section
-                class="bg-slate-500/40 backdrop-blur-xl px-4 rounded-4xl flex justify-center flex-col py-6 gap-2">
+                class=" backdrop-blur-xs bg-transparent text-black font-semibold px-4 rounded-4xl flex justify-center flex-col py-6 gap-2">
                 <h2>Upcoming Forecasting</h2>
                 <div class="w-full py-2">
 
@@ -99,58 +99,58 @@
                     <div id="forecastItems"
                         class="w-full flex gap-4 shrink-0 items-center overflow-x-auto hide-scroll">
 
-                        <div class="p-4 min-w-30 bg-slate-500/40 backdrop-blur-xl rounded-2xl">
+                        <div class="p-4 min-w-30  backdrop-blur-xs bg-transparent text-black font-semibold rounded-2xl">
                             <h2>Today</h2>
                             <h2>32 °C</h2>
                             <img src="assest/clouds.svg" alt="">
-                            <p class="flex items-center gap-1"><span class="material-symbols-outlined">air</span>5 m/s
+                            <p class="flex items-center gap-1"><span class="material-symbols-outlined text-black font-semibold">air</span>5 m/s
                             </p>
                             <p class="flex items-center gap-1"><span
-                                    class="material-symbols-outlined">humidity_low</span>3
+                                    class="material-symbols-outlined text-black font-semibold">humidity_low</span>3
                                 %</p>
                         </div>
 
-                        <div class="p-4 min-w-30 bg-slate-500/40 backdrop-blur-xl rounded-2xl">
+                        <div class="p-4 min-w-30  backdrop-blur-xs bg-transparent text-black font-semibold rounded-2xl">
                             <h2>Tomorrow</h2>
                             <h2>32 °C</h2>
                             <img src="assest/clouds.svg" alt="">
-                            <p class="flex items-center gap-1"><span class="material-symbols-outlined">air</span>5 m/s
+                            <p class="flex items-center gap-1"><span class="material-symbols-outlined text-black font-semibold">air</span>5 m/s
                             </p>
                             <p class="flex items-center gap-1"><span
-                                    class="material-symbols-outlined">humidity_low</span>3
+                                    class="material-symbols-outlined text-black font-semibold">humidity_low</span>3
                                 %</p>
                         </div>
 
-                        <div class="p-4 min-w-30 bg-slate-500/40 backdrop-blur-xl rounded-2xl">
+                        <div class="p-4 min-w-30  backdrop-blur-xs bg-transparent text-black font-semibold rounded-2xl">
                             <h2>Wednesday</h2>
                             <h2>32 °C</h2>
                             <img src="assest/clouds.svg" alt="">
-                            <p class="flex items-center gap-1"><span class="material-symbols-outlined">air</span>5 m/s
+                            <p class="flex items-center gap-1"><span class="material-symbols-outlined text-black font-semibold">air</span>5 m/s
                             </p>
                             <p class="flex items-center gap-1"><span
-                                    class="material-symbols-outlined">humidity_low</span>3
+                                    class="material-symbols-outlined text-black font-semibold">humidity_low</span>3
                                 %</p>
                         </div>
 
-                        <div class="p-4 min-w-30 bg-slate-500/40 backdrop-blur-xl rounded-2xl">
+                        <div class="p-4 min-w-30  backdrop-blur-xs bg-transparent text-black font-semibold rounded-2xl">
                             <h2>Thursday</h2>
                             <h2>32 °C</h2>
                             <img src="assest/clouds.svg" alt="">
-                            <p class="flex items-center gap-1"><span class="material-symbols-outlined">air</span>5 m/s
+                            <p class="flex items-center gap-1"><span class="material-symbols-outlined text-black font-semibold">air</span>5 m/s
                             </p>
                             <p class="flex items-center gap-1"><span
-                                    class="material-symbols-outlined">humidity_low</span>3
+                                    class="material-symbols-outlined text-black font-semibold">humidity_low</span>3
                                 %</p>
                         </div>
 
-                        <div class="p-4 min-w-30 bg-slate-500/40 backdrop-blur-xl rounded-2xl">
+                        <div class="p-4 min-w-30  backdrop-blur-xs bg-transparent text-black font-semibold rounded-2xl">
                             <h2>Friday</h2>
                             <h2>32 °C</h2>
                             <img src="assest/clouds.svg" alt="">
-                            <p class="flex items-center gap-1"><span class="material-symbols-outlined">air</span>5 m/s
+                            <p class="flex items-center gap-1"><span class="material-symbols-outlined text-black font-semibold">air</span>5 m/s
                             </p>
                             <p class="flex items-center gap-1"><span
-                                    class="material-symbols-outlined">humidity_low</span>3
+                                    class="material-symbols-outlined text-black font-semibold">humidity_low</span>3
                                 %</p>
                         </div>
 
@@ -158,30 +158,30 @@
                 </div>
             </section>
             <!-- condition -->
-            <section class="bg-slate-500/40 backdrop-blur-xl p-4 rounded-4xl">
+            <section class=" backdrop-blur-xs bg-transparent text-black font-semibold p-4 rounded-4xl">
                 <h2>Air Conditions</h2>
 
                 <div class="grid grid-cols-2 gap-6 mt-4">
                     <div>
-                        <span class="material-symbols-outlined">thermometer</span>
+                        <span class="material-symbols-outlined text-black font-semibold">thermometer</span>
                         <h3>Real Feel</h3>
                         <h2 id="feel">30 °C</h2>
                     </div>
 
                     <div>
-                        <span class="material-symbols-outlined">air</span>
+                        <span class="material-symbols-outlined text-black font-semibold">air</span>
                         <h3>Sun Rise</h3>
                         <h2 id="sunrise">05:36 Am</h2>
                     </div>
 
                     <div>
-                        <span class="material-symbols-outlined">humidity_low</span>
+                        <span class="material-symbols-outlined text-black font-semibold">humidity_low</span>
                         <h3>Humidity</h3>
                         <h2 id="humidity">28 %</h2>
                     </div>
 
                     <div>
-                        <span class="material-symbols-outlined">brightness_7</span>
+                        <span class="material-symbols-outlined text-black font-semibold">brightness_7</span>
                         <h3>Sun Set</h3>
                         <h2 id="sunset">06:20 PM</h2>
                     </div>
