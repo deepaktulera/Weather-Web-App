@@ -98,7 +98,6 @@ function setBackground(id) {
     else {
         wrapperDiv.style.backgroundImage = "url('https://images.unsplash.com/photo-1463947628408-f8581a2f4aca?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')";
     }
-
 }
 
 function checkExtremeTemp(temp) {
@@ -415,7 +414,6 @@ async function getForecastData(city) {
         const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
         const response = await fetch(apiUrl);
         const data = await response.json()
-        console.log(data)
 
         if (!response.ok) {
             if (data.status === 404) {
@@ -434,11 +432,6 @@ async function getForecastData(city) {
 async function getForcast(city) {
     try {
         const forecast = await getForecastData(city);
-        console.log(forecast.list.filter(item =>{
-            let din = new Date(item.dt_txt).getHours()
-            console.log(din);
-            
-        }));
         
 
         if (!forecast || forecast.cod != "200" || !forecast.list) {

@@ -1,49 +1,113 @@
 @import "tailwindcss";
 
-body::-webkit-scrollbar{
+body::-webkit-scrollbar {
   display: none;
-}
-
-.feel-text{
-    display: flex;
-    justify-content: start;
-    align-items: center;
 }
 
 .hide-scroll::-webkit-scrollbar {
   display: none;
 }
-
 .hide-scroll {
   scrollbar-width: none;
 }
-.important-links span{
-  font-size: 5vw;
+
+/* ===== WRAPPER ===== */
+#wrapper {
+  color: white;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 0.5s ease-in-out;
+  position: relative;
+  overflow: hidden;
 }
 
-#close{
-    display: none;
+/* overlay for readability */
+#wrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.3),
+    rgba(0,0,0,0.65)
+  );
+
+  z-index: 0;
 }
 
+/* keep content above */
+#wrapper > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== TEXT VISIBILITY ===== */
+h1, h2, h3, h4, p, span {
+  color: white !important;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+}
+
+/* ===== GLASS UI (MAIN FIX) ===== */
+.glass {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  background: rgba(0, 0, 0, 0.35);   /* DARK GLASS */
+  border: 1px solid rgba(255,255,255,0.15);
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  transition: all 0.3s ease;
+}
+
+.glass:hover {
+  transform: translateY(-2px);
+}
+
+/* ===== INPUT ===== */
+input {
+  color: white !important;
+}
+
+input::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+
+/* ===== DROPDOWN ===== */
+#recent-cities {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  border-radius: 20px;
+
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+
+  color: white;
+  border: none;
+}
+
+/* ===== BUTTON ===== */
+button {
+  transition: all 0.2s ease;
+}
+button:hover {
+  transform: scale(1.05);
+}
+
+/* ===== SIDEBAR ===== */
+#close {
+  display: none;
+}
 @media (max-width: 640px) {
-  #close{
+  #close {
     display: block;
   }
 }
 
-#wrapper{
-background-size: cover;
-background-position: center;
-background-repeat: no-repeat;
-}
-
-#recent-cities{
-    width:100%;
-    margin-top:8px;
-    padding:10px;
-    border-radius:20px;
-    background:rgba(255,255,255,0.2);
-    backdrop-filter:blur(10px);
-    color:white;
-    border:none;
+/* ===== IMAGE ===== */
+img {
+  display: block;
+  max-width: 100%;
 }
