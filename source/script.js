@@ -78,25 +78,25 @@ window.addEventListener("load", () => {
 function setBackground(id) {
 
     if (id <= 232) {
-        wrapperDiv.style.backgroundImage = "url('background/thunderstorm.gif')";
+        wrapperDiv.style.backgroundImage = "url('https://images.unsplash.com/photo-1567913300214-364d5256df1c?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')";
     }
     else if (id <= 321) {
-        wrapperDiv.style.backgroundImage = "url('background/rain.gif')";
+        wrapperDiv.style.backgroundImage = "url('https://plus.unsplash.com/premium_photo-1666725974723-a42869909d0c?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')";
     }
     else if (id <= 531) {
-        wrapperDiv.style.backgroundImage = "url('background/rain.gif')";
+        wrapperDiv.style.backgroundImage = "url('https://images.unsplash.com/photo-1620385019253-b051a26048ce?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')";
     }
     else if (id <= 622) {
-        wrapperDiv.style.backgroundImage = "url('background/snow.gif')";
+        wrapperDiv.style.backgroundImage = "url('https://images.unsplash.com/photo-1548777123-e216912df7d8?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')";
     }
     else if (id <= 781) {
         wrapperDiv.style.backgroundImage = "url('background/atmosphere.gif')";
     }
     else if (id <= 800) {
-        wrapperDiv.style.backgroundImage = "url('background/clear.gif')";
+        wrapperDiv.style.backgroundImage = "url('https://images.unsplash.com/photo-1587124318790-ad54e29fec80?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')";
     }
     else {
-        wrapperDiv.style.backgroundImage = "url('background/clouds.gif')";
+        wrapperDiv.style.backgroundImage = "url('https://images.unsplash.com/photo-1463947628408-f8581a2f4aca?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')";
     }
 
 }
@@ -392,9 +392,7 @@ async function updateWeatherInfo(city) {
         currentTemp = Math.floor(temp);
         tempTxt.textContent = currentTemp + '°C';
         checkExtremeTemp(currentTemp);
-
         setBackground(id);
-
         conditionTxt.textContent = main;
         current_dateTxt.textContent = getCurrentDate();
         windTxt.textContent = speed + ' m/s';
@@ -406,6 +404,7 @@ async function updateWeatherInfo(city) {
     }
     catch (err) {
         console.error("updateWeatherInfo error:", err);
+        forecastItemsContainer.innerHTML = "";
         showError("Unable to fetch weather data. Please check your internet connection.");
         clearWeatherData();
     }
@@ -415,19 +414,17 @@ async function getForecastData(city) {
     try {
         const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
         const response = await fetch(apiUrl);
-       let data = await response.json()
-       console.log(data);
-       
-        
+        const data = await response.json()
+        console.log(data)
 
         if (!response.ok) {
-            if (response.status === 404) {
+            if (data.status === 404) {
                 return { cod: "404" };
             }
             throw new Error("Forecast API request failed");
         }
-
-        return await response.json();
+        
+        return data;
     } catch (error) {
         console.error("getForecastData error:", error);
         throw error;
@@ -437,6 +434,12 @@ async function getForecastData(city) {
 async function getForcast(city) {
     try {
         const forecast = await getForecastData(city);
+        console.log(forecast.list.filter(item =>{
+            let din = new Date(item.dt_txt).getHours()
+            console.log(din);
+            
+        }));
+        
 
         if (!forecast || forecast.cod != "200" || !forecast.list) {
             forecastItemsContainer.innerHTML = "";
@@ -448,7 +451,7 @@ async function getForcast(city) {
 
         const forecastForDays = forecast.list.filter(item => {
             const date = new Date(item.dt_txt).getHours();
-            return date === 12;
+            return date === 21;
         }).slice(0, 5);
 
         forecastForDays.forEach(item => updateUpcomingForecast(item));
@@ -471,18 +474,18 @@ function updateUpcomingForecast(data) {
     const tempC = Math.floor(data.main.temp);
 
     const html = `
-    <div class="time p-4 min-w-30 bg-slate-500/50 backdrop-blur-xl rounded-2xl">
+    <div class="p-4 min-w-30  backdrop-blur-xs bg-transparent text-black font-semibold rounded-2xl">
         <h2>${formattedDate}</h2>
         <h2 class="forecast-temp" data-temp="${tempC}">${tempC} °C</h2>
         <img src="assest/${getWeatherIcon(data.weather[0].id)}">
 
-        <p class="flex items-center gap-1">
-            <span class="material-symbols-outlined">air</span>
+        <p class="flex w-full items-center p-1">
+            <span class="material-symbols-outlined text-black font-semibold">air</span>
             ${data.wind.speed} m/s
         </p>
 
-        <p class="flex items-center gap-1">
-            <span class="material-symbols-outlined">humidity_low</span>
+        <p class="flex w-full items-center p-1">
+            <span class="material-symbols-outlined text-black font-semibold">humidity_low</span>
             ${data.main.humidity}%
         </p>
     </div>
@@ -553,7 +556,6 @@ function removeCites() {
     showRecentCities();
     showError("Recent cities removed successfully.");
 }
-
 removeCitesBtn.addEventListener("click", () => {
     removeCites()
 })
