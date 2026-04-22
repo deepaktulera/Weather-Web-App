@@ -11,7 +11,7 @@ body::-webkit-scrollbar {
   scrollbar-width: none;
 }
 
-/* ===== WRAPPER ===== */
+
 #wrapper {
   color: white;
   background-size: cover;
@@ -22,7 +22,7 @@ body::-webkit-scrollbar {
   overflow: hidden;
 }
 
-/* overlay for readability */
+
 #wrapper::after {
   content: "";
   position: absolute;
@@ -37,19 +37,18 @@ body::-webkit-scrollbar {
   z-index: 0;
 }
 
-/* keep content above */
+
 #wrapper > * {
   position: relative;
   z-index: 1;
 }
 
-/* ===== TEXT VISIBILITY ===== */
+
 h1, h2, h3, h4, p, span {
   color: white !important;
   text-shadow: 0 2px 8px rgba(0,0,0,0.7);
 }
 
-/* ===== GLASS UI (MAIN FIX) ===== */
 .glass {
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -65,7 +64,6 @@ h1, h2, h3, h4, p, span {
   transform: translateY(-2px);
 }
 
-/* ===== INPUT ===== */
 input {
   color: white !important;
 }
@@ -74,7 +72,6 @@ input::placeholder {
   color: rgba(255,255,255,0.7);
 }
 
-/* ===== DROPDOWN ===== */
 #recent-cities {
   width: 100%;
   margin-top: 8px;
@@ -88,7 +85,6 @@ input::placeholder {
   border: none;
 }
 
-/* ===== BUTTON ===== */
 button {
   transition: all 0.2s ease;
 }
